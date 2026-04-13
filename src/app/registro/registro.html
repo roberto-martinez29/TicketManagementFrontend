@@ -1,0 +1,69 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Ticket de turno</h1>
+    <div class="row justify-content-center">
+        <div class="card col-md-12">
+            <form>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="tramitante" class="form-label">Nombre completo de quien realizará el
+                            trámite:</label>
+                        <input type="text" class="form-control" id="tramitante" name="tramitante" />
+                    </div>
+                    <div class="col-6">
+                        <label for="curp" class="form-label">CURP:</label>
+                        <input type="text" class="form-control" id="curp" name="curp" />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" />
+                    </div>
+                    <div class="col-4">
+                        <label for="paterno" class="form-label">Ap. Paterno:</label>
+                        <input type="text" class="form-control" id="paterno" name="paterno" />
+                    </div>
+                    <div class="col-4">
+                        <label for="materno" class="form-label">Ap. Materno:</label>
+                        <input type="text" class="form-control" id="materno" name="materno" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nivel" class="form-label">¿Nivel al que desea ingresar o que ya cursa el alumno?</label>
+                    <select class="form-select" id="nivel" name="nivel">
+                        <option value="" disabled selected hidden>Seleccionar nivel</option>
+                        <option value="state1">Coahuila</option>
+                        <option value="state2">Nuevo Leon</option>
+                        <option value="state3">Tamaulipas</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="municipio" class="form-label">Municipio donde desea que estudie el alumno:</label>
+                    <select class="form-select" id="municipio" name="municipio">
+                        <option value="" disabled selected hidden>Seleccionar municipio</option>
+                        <option value="state1">Coahuila</option>
+                        <option value="state2">Nuevo Leon</option>
+                        <option value="state3">Tamaulipas</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="asunto" class="form-label">Seleccione el asunto que va a tratar:</label>
+                    <select class="form-select" id="asunto" name="asunto">
+                        <option value="" disabled selected hidden>Seleccionar asunto</option>
+                        <option value="state1">Coahuila</option>
+                        <option value="state2">Nuevo Leon</option>
+                        <option value="state3">Tamaulipas</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

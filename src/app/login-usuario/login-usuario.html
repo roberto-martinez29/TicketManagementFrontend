@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Acceso al sistema</h1>
+    <p>Ingrese los datos con los que está registrado su turno.</p>
+    <div class="row justify-content-center">
+        <div class="card col-md-6">
+            <form>
+                <div class="mb-3">
+                    <label for="numTurno" class="form-label">N° de turno</label>
+                    <input type="number" class="form-control" id="numTurno" name="numTurno" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="curp" class="form-label">CURP</label>
+                    <input type="text" class="form-control" id="curp" name="curp" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="municipio" class="form-label">Municipio</label>
+                    <select class="form-select" id="municipio" name="municipio">
+                        <option value="" disabled selected hidden>Seleccionar municipio</option>
+                        <option value="state1">Coahuila</option>
+                        <option value="state2">Nuevo Leon</option>
+                        <option value="state3">Tamaulipas</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
