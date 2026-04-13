@@ -22,6 +22,45 @@ export class InfoTurno {
   municipios: Municipio[] = [];
   nombreMunicipio = '';
 
+  private setTicketData(ticket: Ticket, municipios: Municipio[]): void {
+    this.ticketFilter = ticket;
+    this.municipios = municipios;
+
+    const municipio = this.municipios.find(u => u.idMunicipio === this.ticketFilter.idMunicipio);
+    this.nombreMunicipio = municipio ? municipio.nombre : 'No encontrado';
+    this.cdr.detectChanges();
+  }
+
+  private actualizarTicketSiTurnoPendiente(ticket: Ticket, municipios: Municipio[]): void {
+    if (Number(ticket.idTicket) <= 0 || Number(ticket.numTurno) > 0) {
+      this.setTicketData(ticket, municipios);
+      return;
+    }
+
+    this.ticketService.updateTicket(ticket).subscribe({
+      next: (response) => {
+        const idTicketActualizado = Number(response?.idTicket ?? ticket.idTicket);
+
+        if (idTicketActualizado <= 0) {
+          this.setTicketData(ticket, municipios);
+          return;
+        }
+
+        this.ticketService.getTicket(idTicketActualizado).subscribe({
+          next: (ticketActualizado) => {
+            this.setTicketData(ticketActualizado, municipios);
+          },
+          error: () => {
+            this.setTicketData(ticket, municipios);
+          }
+        });
+      },
+      error: () => {
+        this.setTicketData(ticket, municipios);
+      }
+    });
+  }
+
   ngOnInit() {
     const numTurno = Number(this.route.snapshot.paramMap.get('numTurno')) || 0;
     const idMunicipio = Number(this.route.snapshot.paramMap.get('idMunicipio')) || 0;
@@ -34,12 +73,7 @@ export class InfoTurno {
       }).subscribe({
         next: ({ ticket, municipios }) => {
           console.log('Ticket encontrado por parametros:', ticket);
-          this.ticketFilter = ticket;
-          this.municipios = municipios;
-
-          const municipio = this.municipios.find(u => u.idMunicipio === this.ticketFilter.idMunicipio);
-          this.nombreMunicipio = municipio ? municipio.nombre : 'No encontrado';
-          this.cdr.detectChanges();
+          this.actualizarTicketSiTurnoPendiente(ticket, municipios);
         },
         error: (err) => {
           console.error('Error al buscar ticket por parametros', err);
@@ -57,12 +91,7 @@ export class InfoTurno {
       }).subscribe({
         next: ({ ticket, municipios }) => {
           console.log('Ticket encontrado:', ticket);
-          this.ticketFilter = ticket;
-          this.municipios = municipios;
-
-          const municipio = this.municipios.find(u => u.idMunicipio === this.ticketFilter.idMunicipio);
-          this.nombreMunicipio = municipio ? municipio.nombre : 'No encontrado';
-          this.cdr.detectChanges();
+          this.actualizarTicketSiTurnoPendiente(ticket, municipios);
         },
         error: (err) => {
           console.error('Error al cargar ticket o municipios', err);

@@ -120,6 +120,10 @@ export class Registro {
   }
 
   btnSave() {
+    this.ticketFilter.idNivel = Number(this.ticketFilter.idNivel) || 0;
+    this.ticketFilter.idMunicipio = Number(this.ticketFilter.idMunicipio) || 0;
+    this.ticketFilter.idAsunto = Number(this.ticketFilter.idAsunto) || 0;
+
     if (!this.formularioCompleto()) {
       alert('Debes completar todos los campos antes de registrar o modificar el ticket.');
       return;
@@ -180,13 +184,28 @@ export class Registro {
       console.log('nuevo')
     }
     else {
-      if (this.ticketFilter.idMunicipio != this.idMunicipioOg) {
-        this.ticketFilter.idTicket = 0;
-        this.ticketService.saveTicket(this.ticketFilter).subscribe({
-          next: () => {
+      if (this.ticketFilter.idMunicipio !== this.idMunicipioOg) {
+        const ticketNuevo: Ticket = {
+          ...this.ticketFilter,
+          idTicket: 0,
+          numTurno: 0,
+        };
+
+        this.ticketService.saveTicket(ticketNuevo).subscribe({
+          next: (response) => {
+            const numTurnoCreado = Number(response?.numTurno ?? ticketNuevo.numTurno);
+            const idMunicipioCreado = Number(response?.idMunicipio ?? ticketNuevo.idMunicipio);
+            const curpCreada = String(response?.curp ?? ticketNuevo.curp ?? '').trim();
+            const idCreado = Number(response?.idTicket ?? ticketNuevo.idTicket);
+
             console.log('actualizado');
             alert('Ticket actualizado con éxito.');
-            this.router.navigate(['info', this.ticketFilter.idTicket]);
+            if (numTurnoCreado > 0 && idMunicipioCreado > 0 && curpCreada.length > 0) {
+              this.router.navigate(['info-turno', numTurnoCreado, idMunicipioCreado, curpCreada]);
+              return;
+            }
+
+            this.router.navigate(['info', idCreado]);
           },
           error: (err) => {
             console.error('Error o no encontrado', err);

@@ -59,9 +59,9 @@
                 <div class="mb-3">
                     <label for="nivel" class="form-label">¿Nivel al que desea ingresar o que ya cursa el alumno?</label>
                     <select class="form-select" id="nivel" name="nivel" [(ngModel)]="ticketFilter.idNivel">
-                        <option value="" disabled selected hidden>Seleccionar nivel</option>
+                        <option [ngValue]="0" disabled hidden>Seleccionar nivel</option>
                         @for (item of niveles; track $index) {
-                        <option [value]="item.idNivel">{{ item.nombre }}</option>
+                        <option [ngValue]="item.idNivel">{{ item.nombre }}</option>
                         }
                     </select>
                 </div>
@@ -69,12 +69,12 @@
                 <div class="mb-3">
                     <label for="municipio" class="form-label">Municipio donde desea que estudie el alumno:</label>
                     <select class="form-select" id="municipio" name="municipio" [(ngModel)]="ticketFilter.idMunicipio">
-                        <option value="" disabled selected hidden>Seleccionar municipio</option>
+                        <option [ngValue]="0" disabled hidden>Seleccionar municipio</option>
                         @for (item of municipios; track $index) {
-                        <option [value]="item.idMunicipio">{{ item.nombre }}</option>
+                        <option [ngValue]="item.idMunicipio">{{ item.nombre }}</option>
                         }
                     </select>
-                    @if (ticketFilter.idMunicipio != idMunicipioOg) {
+                    @if (ticketFilter.idMunicipio != idMunicipioOg && ticketFilter.idTicket>0) {
                     <b>Atención: Si cambia el municipio perderá su turno actual.</b>
                     }
                 </div>
@@ -82,9 +82,9 @@
                 <div class="mb-3">
                     <label for="asunto" class="form-label">Seleccione el asunto que va a tratar:</label>
                     <select class="form-select" id="asunto" name="asunto" [(ngModel)]="ticketFilter.idAsunto">
-                        <option value="" disabled selected hidden>Seleccionar asunto</option>
+                        <option [ngValue]="0" disabled hidden>Seleccionar asunto</option>
                         @for (item of asuntos; track $index) {
-                        <option [value]="item.idAsunto">{{ item.nombre }}</option>
+                        <option [ngValue]="item.idAsunto">{{ item.nombre }}</option>
                         }
                     </select>
                 </div>
