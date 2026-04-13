@@ -38,6 +38,24 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <label for="telefono" class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" maxlength="10"
+                            [(ngModel)]="ticketFilter.telefono" />
+                    </div>
+                    <div class="col-4">
+                        <label for="celular" class="form-label">Celular:</label>
+                        <input type="text" class="form-control" id="celular" name="celular" maxlength="10"
+                            [(ngModel)]="ticketFilter.celular" />
+                    </div>
+                    <div class="col-4">
+                        <label for="correo" class="form-label">Correo:</label>
+                        <input type="email" class="form-control" id="correo" name="correo"
+                            [(ngModel)]="ticketFilter.correo" />
+                    </div>
+                </div>
+
                 <div class="mb-3">
                     <label for="nivel" class="form-label">¿Nivel al que desea ingresar o que ya cursa el alumno?</label>
                     <select class="form-select" id="nivel" name="nivel" [(ngModel)]="ticketFilter.idNivel">
@@ -80,7 +98,7 @@
                 }
 
                 @if (impresion != 1) { <div class="mb-3 action-row">
-                    <button type="submit" class="btn btn-primary" (click)="btnSave()">{{ ticketFilter.idTicket > 0 ?
+                    <button type="button" class="btn btn-primary" (click)="btnSave()">{{ ticketFilter.idTicket > 0 ?
                         'Modificar' :
                         'Registrar' }}</button>
                     <button type="button" class="btn btn-secondary" (click)="goBack()">Atrás</button>

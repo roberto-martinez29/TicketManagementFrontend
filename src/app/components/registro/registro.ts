@@ -29,13 +29,30 @@ export class Registro {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const id = params['id'];
-      this.impresion = params['impresion'];
+      const id = Number(params['id']) || 0;
+      const numTurno = Number(params['numTurno']) || 0;
+      const idMunicipio = Number(params['idMunicipio']) || 0;
+      const curp = String(params['curp'] ?? '').trim();
+      this.impresion = Number(params['impresion']) || 0;
       console.log(this.impresion)
+
       if (id > 0) {
         this.ticketService.getTicket(id).subscribe({
           next: (data) => {
             console.log('Ticket encontrado:', data);
+            this.ticketFilter = data;
+            this.idMunicipioOg = this.ticketFilter.idMunicipio;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Error o no encontrado', err);
+            alert('Verifique sus datos, no se encontró el ticket.');
+          }
+        });
+      } else if (numTurno > 0 && idMunicipio > 0 && curp.length > 0) {
+        this.ticketService.buscarTicket(numTurno, curp, idMunicipio).subscribe({
+          next: (data) => {
+            console.log('Ticket encontrado por parametros:', data);
             this.ticketFilter = data;
             this.idMunicipioOg = this.ticketFilter.idMunicipio;
             this.cdr.detectChanges();
@@ -76,13 +93,85 @@ export class Registro {
     });
   }
 
+  private tieneTexto(valor?: string): boolean {
+    return !!valor && valor.trim().length > 0;
+  }
+
+  private esTelefonoValido(valor?: string): boolean {
+    return /^\d{10}$/.test((valor ?? '').trim());
+  }
+
+  private esCorreoValido(valor?: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((valor ?? '').trim());
+  }
+
+  private formularioCompleto(): boolean {
+    return this.tieneTexto(this.ticketFilter.tramitante)
+      && this.tieneTexto(this.ticketFilter.curp)
+      && this.tieneTexto(this.ticketFilter.nombre)
+      && this.tieneTexto(this.ticketFilter.apPaterno)
+      && this.tieneTexto(this.ticketFilter.apMaterno)
+      && this.tieneTexto(this.ticketFilter.telefono)
+      && this.tieneTexto(this.ticketFilter.celular)
+      && this.tieneTexto(this.ticketFilter.correo)
+      && Number(this.ticketFilter.idNivel) > 0
+      && Number(this.ticketFilter.idMunicipio) > 0
+      && Number(this.ticketFilter.idAsunto) > 0;
+  }
+
   btnSave() {
+    if (!this.formularioCompleto()) {
+      alert('Debes completar todos los campos antes de registrar o modificar el ticket.');
+      return;
+    }
+
+    const curp = (this.ticketFilter.curp ?? '').trim();
+    const telefono = (this.ticketFilter.telefono ?? '').trim();
+    const celular = (this.ticketFilter.celular ?? '').trim();
+    const correo = (this.ticketFilter.correo ?? '').trim();
+
+    if (curp.length !== 18) {
+      alert('La CURP debe tener exactamente 18 caracteres.');
+      return;
+    }
+
+    if (!this.esTelefonoValido(telefono)) {
+      alert('El teléfono debe tener exactamente 10 dígitos.');
+      return;
+    }
+
+    if (!this.esTelefonoValido(celular)) {
+      alert('El celular debe tener exactamente 10 dígitos.');
+      return;
+    }
+
+    if (!this.esCorreoValido(correo)) {
+      alert('El correo no tiene un formato válido.');
+      return;
+    }
+
+    this.ticketFilter.curp = curp;
+    this.ticketFilter.telefono = telefono;
+    this.ticketFilter.celular = celular;
+    this.ticketFilter.correo = correo;
+    console.log('paso los filtros')
     if (this.ticketFilter.idTicket <= 0) {
       this.ticketService.saveTicket(this.ticketFilter).subscribe({
-        next: () => {
+        next: (response) => {
           console.log('registrado');
+
+          const numTurnoCreado = Number(response?.numTurno ?? this.ticketFilter.numTurno);
+          const idMunicipioCreado = Number(response?.idMunicipio ?? this.ticketFilter.idMunicipio);
+          const curpCreada = String(response?.curp ?? this.ticketFilter.curp ?? '').trim();
+          const idCreado = Number(response?.idTicket ?? this.ticketFilter.idTicket);
+
           alert('Ticket registrado con éxito.');
-          this.router.navigate(['info', this.ticketFilter.idTicket]);
+          if (numTurnoCreado > 0 && idMunicipioCreado > 0 && curpCreada.length > 0) {
+            this.router.navigate(['info-turno', numTurnoCreado, idMunicipioCreado, curpCreada]);
+            return;
+          }
+
+          this.router.navigate(['info', idCreado]);
         },
         error: (err) => {
           console.error('Error o no encontrado', err);

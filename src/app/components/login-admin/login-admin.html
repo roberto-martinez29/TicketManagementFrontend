@@ -23,8 +23,15 @@
                         [(ngModel)]="adminFilter.contrasena" />
                 </div>
 
+                <div class="mb-3">
+                    <ngx-recaptcha2 [siteKey]="recaptchaSiteKey" (success)="onCaptchaSuccess($event)"
+                        (expire)="onCaptchaExpired()" (reset)="onCaptchaExpired()">
+                    </ngx-recaptcha2>
+                    <small class="text-danger">{{ captchaError }}</small>
+                </div>
+
                 <div class="mb-3 action-row">
-                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!recaptchaToken">Ingresar</button>
                     <button type="button" class="btn btn-secondary" (click)="goBack()">Atrás</button>
                 </div>
             </form>

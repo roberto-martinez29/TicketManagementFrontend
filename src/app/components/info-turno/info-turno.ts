@@ -23,7 +23,33 @@ export class InfoTurno {
   nombreMunicipio = '';
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id')) ?? 0;
+    const numTurno = Number(this.route.snapshot.paramMap.get('numTurno')) || 0;
+    const idMunicipio = Number(this.route.snapshot.paramMap.get('idMunicipio')) || 0;
+    const curp = (this.route.snapshot.paramMap.get('curp') ?? '').trim();
+
+    if (numTurno > 0 && idMunicipio > 0 && curp.length > 0) {
+      forkJoin({
+        ticket: this.ticketService.buscarTicket(numTurno, curp, idMunicipio),
+        municipios: this.catService.getMunicipios()
+      }).subscribe({
+        next: ({ ticket, municipios }) => {
+          console.log('Ticket encontrado por parametros:', ticket);
+          this.ticketFilter = ticket;
+          this.municipios = municipios;
+
+          const municipio = this.municipios.find(u => u.idMunicipio === this.ticketFilter.idMunicipio);
+          this.nombreMunicipio = municipio ? municipio.nombre : 'No encontrado';
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error al buscar ticket por parametros', err);
+          alert('No se pudo recuperar el ticket con los datos proporcionados.');
+        }
+      });
+      return;
+    }
+
+    const id = Number(this.route.snapshot.paramMap.get('id')) || 0;
     if (id > 0) {
       forkJoin({
         ticket: this.ticketService.getTicket(id),
@@ -47,7 +73,16 @@ export class InfoTurno {
   }
 
   imprimir() {
-    this.router.navigate([{ outlets: { print: ['imprimir-ticket', this.ticketFilter.idTicket, 1] } }]).then(() => {
+    const idTicket = Number(this.ticketFilter.idTicket) || 0;
+    const numTurno = Number(this.ticketFilter.numTurno) || 0;
+    const idMunicipio = Number(this.ticketFilter.idMunicipio) || 0;
+    const curp = (this.ticketFilter.curp ?? '').trim();
+
+    const rutaImpresion = idTicket > 0
+      ? ['imprimir-ticket', idTicket, 1]
+      : ['imprimir-ticket-busqueda', numTurno, idMunicipio, curp, 1];
+
+    this.router.navigate([{ outlets: { print: rutaImpresion } }]).then(() => {
       setTimeout(() => {
         window.print();
         this.router.navigate([{ outlets: { print: null } }]);
