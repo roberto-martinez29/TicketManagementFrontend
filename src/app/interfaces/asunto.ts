@@ -1,4 +1,4 @@
-export interface Asunto {
-    idAsunto: number;
-    nombre: string;
+export class Asunto {
+    idAsunto: number = 0;
+    nombre: string = '';
 }

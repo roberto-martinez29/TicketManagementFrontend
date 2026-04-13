@@ -1,4 +1,4 @@
-export interface Nivel {
-    idNivel: number;
-    nombre: string;
+export class Nivel {
+    idNivel: number = 0;
+    nombre: string = '';
 }

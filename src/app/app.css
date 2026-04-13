@@ -1,0 +1,7 @@
+.contenido {
+    position: relative;
+}
+
+.contenido>router-outlet {
+    display: block;
+}

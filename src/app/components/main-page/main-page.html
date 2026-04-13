@@ -1,0 +1,21 @@
+<div class="app-banner">
+    <picture>
+        <source media="(max-width: 768px)" srcset="/banner-ticket-mobile.svg" />
+        <img src="/banner-ticket.svg" alt="Banner del sistema de turnos" />
+    </picture>
+</div>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Sistema de turnos</h1>
+    <div class="row justify-content-center">
+        <div class="card col-md-12 app-card">
+            <p class="app-intro">Bienvenido al sistema de turnos. Para generar un nuevo ticket o modificar uno ya
+                existente, haz clic en "Turnos". Para acceder como administrador, haz clic en "Administración del
+                sistema".</p>
+            <div class="action-row action-row--center">
+                <button type="submit" class="btn btn-primary" (click)="goUsuario()">Turnos</button>
+                <button type="submit" class="btn btn-primary" (click)="goAdmin()">Administración del sistema</button>
+            </div>
+        </div>
+    </div>
+</div>

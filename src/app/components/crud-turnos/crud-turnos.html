@@ -1,0 +1,23 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container-fluid mt-4">
+    <div class="crud-header d-flex justify-content-between align-items-center mb-3">
+        <h3>Gestión de Turnos</h3>
+        <button class="btn btn-primary" (click)="listarTickets()">Refrescar Datos</button>
+    </div>
+
+    <div class="crud-search mb-3">
+        <label for="searchTicket" class="form-label">Buscar por CURP o nombre completo</label>
+        <div class="crud-search__controls">
+            <input id="searchTicket" type="text" class="form-control" [value]="searchTerm"
+                (input)="onSearchChange($event)" placeholder="Ej: GOCJ000101HDFRRL01 o Juan Pérez López" />
+            <button type="button" class="btn btn-secondary" (click)="clearSearch()">Limpiar</button>
+        </div>
+    </div>
+
+    <ag-grid-angular style="width: 100%; height: 500px;" [theme]="theme" [rowData]="rowData" [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef" (gridReady)="onGridReady($event)"
+        (cellValueChanged)="onCellValueChanged($event)" [pagination]="true" [paginationPageSize]="15"
+        [paginationPageSizeSelector]="paginationPageSizeSelector">
+    </ag-grid-angular>
+</div>

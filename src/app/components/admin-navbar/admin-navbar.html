@@ -1,0 +1,30 @@
+@if (adminService.isSessionActive()) {
+<nav class="admin-navbar">
+    <div class="admin-navbar__brand">
+        <span class="admin-navbar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" role="img" focusable="false">
+                <path d="M12 3l8 4v5c0 4.9-3.2 8.3-8 9-4.8-.7-8-4.1-8-9V7l8-4Z" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9.3 12.1 11.2 14l3.8-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </span>
+        <span class="admin-navbar__eyebrow">Administración</span>
+        <span class="admin-navbar__title">Panel administrador</span>
+        <span class="admin-navbar__subtitle"></span>
+    </div>
+
+    <div class="admin-navbar__links">
+        <a routerLink="/dashboard" routerLinkActive="is-active">Dashboard</a>
+        <a routerLink="/gestion" routerLinkActive="is-active">Gestion de turnos</a>
+        <button type="button" class="admin-navbar__logout" (click)="logout()">Cerrar sesión</button>
+    </div>
+</nav>
+
+<div class="app-banner">
+    <picture>
+        <source media="(max-width: 768px)" srcset="/banner-ticket-mobile.svg" />
+        <img src="/banner-ticket.svg" alt="Banner del sistema de turnos" />
+    </picture>
+</div>
+}

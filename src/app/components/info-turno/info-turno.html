@@ -1,0 +1,41 @@
+<app-user-navbar></app-user-navbar>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Información de turno</h1>
+    <p class="app-intro">Su turno ha sido registrado con éxito. Es obligatorio llevar el ticket impreso al acudir a su
+        cita. Guarde bien la siguiente información para modificaciones posteriores.</p>
+    <div class="row justify-content-center">
+        <div class="card col-md-6 app-card">
+            <form>
+                <div class="mb-3">
+                    <b>N° de turno:</b>
+                </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">{{ticketFilter.numTurno}}</label>
+                </div>
+
+                <div class="mb-3">
+                    <b>CURP:</b>
+                </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">{{ticketFilter.curp}}</label>
+                </div>
+
+                <div class="mb-3">
+                    <b>Municipio:</b>
+                </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">{{nombreMunicipio}}</label>
+                </div>
+
+                <div class="mb-3 action-row">
+                    <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir ticket</button>
+                    <button type="button" class="btn btn-secondary" (click)="goBack()">Atrás</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

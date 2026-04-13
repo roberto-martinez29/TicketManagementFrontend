@@ -1,0 +1,16 @@
+<app-user-navbar></app-user-navbar>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Sistema de turnos</h1>
+    <div class="row justify-content-center">
+        <div class="card col-md-12 app-card">
+            <p class="app-intro">Para generar un nuevo ticket de turno haz clic en "Nuevo turno". Para modificar los
+                datos de un turno ya registrado, presiona "Modificar existente".</p>
+            <div class="action-row action-row--center">
+                <button type="submit" class="btn btn-primary" (click)="goNuevo()">Nuevo turno</button>
+                <button type="submit" class="btn btn-primary" (click)="goModificar()">Modificar existente</button>
+                <button type="button" class="btn btn-secondary" (click)="goBack()">Atrás</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-export interface Municipio {
-    idMunicipio: number;
-    nombre: string;
+export class Municipio {
+    idMunicipio: number = 0;
+    nombre: string = '';
 }
